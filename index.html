@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Momo — a lil fella who checks in on you</title>
+<meta name="description" content="Momo is a cute companion who lives on your phone. One gentle check-in a day, a listening ear whenever you need it, and zero guilt. Made for the people who take care of everyone else." />
+<link rel="icon" href="assets/momo-icon.png" />
+<style>
+  :root {
+    --bg: #FAF3EA; --surface: #FFF9F1; --border: #EADCC9;
+    --text: #4A3B33; --text-2: #7A6A5E; --text-3: #A79685;
+    --accent: #E8A18C; --accent-hover: #D98D77; --on-accent: #FFF9F1;
+    --sage: #8FAE8B; --sage-soft: #E3ECDF; --lavender: #AC9EC6;
+    --shadow: rgba(74, 59, 51, 0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #231C18; --surface: #2C241F; --border: #413730;
+      --text: #EFE5DA; --text-2: #B8A99B; --text-3: #84766A;
+      --accent: #DE9A86; --accent-hover: #E7AC9A; --on-accent: #2C1E18;
+      --sage: #93B18F; --sage-soft: #2E362C; --lavender: #A99BC3;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", Quicksand, Comfortaa, -apple-system, system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
+  header { text-align: center; padding: 64px 0 32px; }
+  .hero-img { width: 240px; max-width: 70%; height: auto; }
+  h1 { font-size: 2.4rem; font-weight: 700; margin-top: 16px; }
+  .tagline { color: var(--text-2); font-size: 1.2rem; margin-top: 8px; }
+  .badge {
+    display: inline-block; margin-top: 24px; padding: 14px 28px;
+    background: var(--accent); color: var(--on-accent);
+    border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 1.05rem;
+  }
+  .badge:hover { background: var(--accent-hover); }
+  .badge-note { display: block; margin-top: 8px; color: var(--text-3); font-size: 0.85rem; }
+  section { padding: 40px 0; }
+  .poses { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 16px 0 0; }
+  .poses img { width: 120px; height: auto; }
+  h2 { font-size: 1.5rem; margin-bottom: 16px; text-align: center; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 24px;
+  }
+  .card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .card p { color: var(--text-2); font-size: 0.95rem; }
+  .privacy-callout {
+    background: var(--sage-soft); border-radius: 20px; padding: 24px 32px;
+    text-align: center; margin-top: 32px;
+  }
+  .privacy-callout strong { color: var(--sage); }
+  footer {
+    border-top: 1px solid var(--border); margin-top: 48px;
+    padding: 32px 0 48px; text-align: center; color: var(--text-3); font-size: 0.9rem;
+  }
+  footer a { color: var(--text-2); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img class="hero-img" src="assets/momo-day.png" alt="Momo, a round peach-colored mochi character with big sparkly eyes, smiling" />
+      <h1>momo</h1>
+      <p class="tagline">a lil fella who checks in on you</p>
+      <a class="badge" href="#">Coming soon to the App Store</a>
+      <span class="badge-note">made first for one very tired resident. now for everyone who takes care of everyone else.</span>
+    </header>
+
+    <section>
+      <div class="poses">
+        <img src="assets/momo-morning.png" alt="Momo with a cup of cocoa in the morning" />
+        <img src="assets/momo-scrubs.png" alt="Momo wearing a tiny stethoscope" />
+        <img src="assets/momo-cheer.png" alt="Momo celebrating with confetti" />
+        <img src="assets/momo-night.png" alt="Momo asleep in a nightcap" />
+      </div>
+    </section>
+
+    <section>
+      <h2>what momo does</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>🤍 one gentle check-in a day</h3>
+          <p>at a random moment inside your awake hours — like a friend thinking of you, not an alarm. night-shift mode means he never wakes you post-call.</p>
+        </div>
+        <div class="card">
+          <h3>👂 a listening buddy</h3>
+          <p>tell him about your day. he listens, reacts, and answers with warmth — never advice you didn't ask for, never "have you tried yoga?"</p>
+        </div>
+        <div class="card">
+          <h3>🫙 the memory jar</h3>
+          <p>good moments get kept. on the hard days, momo brings one back: "you told me once… that happened. you did that."</p>
+        </div>
+        <div class="card">
+          <h3>🌪️ shake to vent</h3>
+          <p>shake your phone, type the thing IN ALL CAPS, and momo chomps it to shreds. it is never saved. it is gone forever.</p>
+        </div>
+        <div class="card">
+          <h3>📱 he hangs out on your home screen</h3>
+          <p>the widget rotates his poses and little encouragements all day — coffee in the morning, pajamas at night.</p>
+        </div>
+        <div class="card">
+          <h3>🌱 a streak that only counts up</h3>
+          <p>days survived, never days "kept up." nothing to break, nothing to lose, no guilt. ever.</p>
+        </div>
+      </div>
+
+      <div class="privacy-callout">
+        <strong>everything stays on your phone.</strong><br />
+        no account. no cloud. no analytics. momo can't gossip — he doesn't even have wifi.
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        <a href="privacy.html">privacy policy</a> · <a href="support.html">support</a>
+      </p>
+      <p style="margin-top: 8px;">© 2026 Harsh Menaria. momo is a small creature and asks that you be gentle with yourself.</p>
+    </footer>
+  </div>
+</body>
+</html>

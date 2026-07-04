@@ -24,6 +24,7 @@
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1); }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg); color: var(--text); overflow-x: hidden;
@@ -55,16 +56,22 @@
     width: 40px; height: 40px; border-radius: 14px; border: 2px solid transparent;
     cursor: pointer; transition: transform 0.15s ease, border-color 0.15s;
   }
-  .flavor:hover { transform: scale(1.12) rotate(-4deg); }
+  @media (hover: hover) and (pointer: fine) {
+    .flavor:hover { transform: scale(1.12) rotate(-4deg); }
+  }
+  .flavor:active { transform: scale(0.94); }
   .flavor.active { border-color: var(--text); transform: scale(1.08); }
   .flavor:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
   .badge {
     display: inline-block; margin-top: 18px; padding: 13px 28px;
     background: var(--accent); color: var(--on-accent);
     border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 1.02rem;
-    transition: background 0.2s, transform 0.15s;
+    transition: background 200ms ease, transform 160ms var(--ease-out-strong);
   }
-  .badge:hover { background: var(--accent-hover); transform: translateY(-2px); }
+  @media (hover: hover) and (pointer: fine) {
+    .badge:hover { background: var(--accent-hover); transform: translateY(-2px); }
+  }
+  .badge:active { transform: scale(0.97); }
   .badge-note { display: block; margin-top: 10px; color: var(--text-3); font-size: 0.85rem; padding: 0 16px; }
   .scroll-cue { margin-top: 14px; color: var(--text-3); font-size: 1.4rem; animation: cue 1.8s ease-in-out infinite; }
   @keyframes cue { 0%,100% { transform: translateY(0); opacity: .5 } 50% { transform: translateY(6px); opacity: 1 } }
@@ -75,15 +82,36 @@
   section { padding: 56px 0; }
   h2 { font-size: 1.7rem; margin-bottom: 8px; text-align: center; }
   .sub { text-align: center; color: var(--text-2); margin-bottom: 8px; }
-  .poses { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
-  .poses img { width: 128px; height: auto; will-change: transform; }
+  .day { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-top: 28px; }
+  .moment {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+    padding: 18px 14px 20px; text-align: center; will-change: transform, opacity;
+  }
+  .moment img { width: 110px; height: auto; }
+  .moment .when {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: lowercase; color: var(--text-3); background: var(--bg);
+    border-radius: 999px; padding: 3px 10px; margin-bottom: 8px;
+  }
+  .moment p { color: var(--text-2); font-size: 0.9rem; line-height: 1.45; }
+  .story {
+    max-width: 560px; margin: 0 auto; text-align: center;
+  }
+  .story .big-heart { font-size: 2rem; }
+  .story p { color: var(--text-2); margin-top: 10px; }
+  .story .sig { color: var(--text-3); font-size: 0.85rem; margin-top: 14px; }
+  .share-band { text-align: center; padding: 8px 0 48px; }
+  .share-band h2 { margin-bottom: 4px; }
+  .share-band .sub { margin-bottom: 18px; }
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 28px; }
   .card {
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 20px; padding: 24px; will-change: transform, opacity;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .card:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: 0 12px 30px rgba(74,59,51,0.08); }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover { transform: translateY(-4px) rotate(-0.5deg); box-shadow: 0 12px 30px rgba(74,59,51,0.08); }
+  }
   .card h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .card p { color: var(--text-2); font-size: 0.95rem; }
   .privacy-callout {
@@ -122,13 +150,29 @@
 
   <div class="wrap">
     <section id="poses-section">
-      <h2>he has outfits. obviously.</h2>
-      <p class="sub">cocoa mornings, tiny stethoscope shifts, confetti wins, pajama nights</p>
-      <div class="poses">
-        <img src="assets/momo-morning.png" alt="Momo with a cup of cocoa in the morning" />
-        <img src="assets/momo-scrubs.png" alt="Momo wearing a tiny stethoscope" />
-        <img src="assets/momo-cheer.png" alt="Momo celebrating with confetti" />
-        <img src="assets/momo-night.png" alt="Momo asleep in a nightcap" />
+      <h2>a day with momo</h2>
+      <p class="sub">he keeps you company through all of it</p>
+      <div class="day">
+        <div class="moment">
+          <span class="when">7:00 am</span><br />
+          <img src="assets/momo-morning.png" alt="Momo with a cup of cocoa in the morning" />
+          <p>cocoa's on. "one shift at a time. we've got this."</p>
+        </div>
+        <div class="moment">
+          <span class="when">on shift</span><br />
+          <img src="assets/momo-scrubs.png" alt="Momo wearing a tiny stethoscope" />
+          <p>tiny stethoscope, big belief in you. a random little check-in lands when you need it.</p>
+        </div>
+        <div class="moment">
+          <span class="when">the win</span><br />
+          <img src="assets/momo-cheer.png" alt="Momo celebrating with confetti" />
+          <p>you tell him it went well. confetti. it goes in the jar — for the hard days.</p>
+        </div>
+        <div class="moment">
+          <span class="when">11:30 pm</span><br />
+          <img src="assets/momo-night.png" alt="Momo asleep in a nightcap" />
+          <p>"day's over. you made it." he sleeps when you sleep. never pings you post-call.</p>
+        </div>
       </div>
     </section>
 
@@ -165,6 +209,20 @@
         <strong>everything stays on your phone.</strong><br />
         no account required. no cloud. no analytics. momo can't gossip — he doesn't even have wifi.
       </div>
+    </section>
+
+    <section class="story" id="story">
+      <div class="big-heart">🤍</div>
+      <h2>momo started as a gift</h2>
+      <p>a brother watched his sister disappear into residency — too tired to text back, too strong to say it was heavy. so he built her a friend who would check in so she never had to be asked "are you okay?" again.</p>
+      <p>now momo is for every resident, nurse, and human who takes care of everyone else.</p>
+      <p class="sig">— harsh, momo's dad</p>
+    </section>
+
+    <section class="share-band">
+      <h2>know someone who needs a momo?</h2>
+      <p class="sub">the best momos are gifts. send him to your favorite tired human.</p>
+      <button class="badge" id="share-btn" type="button">send momo to someone 🤍</button>
     </section>
 
     <footer>
@@ -219,9 +277,11 @@
 
     /* ====================== build momo (pure code) ==================== */
     const momo = new THREE.Group();      // hop / squash
-    const pivot = new THREE.Group();     // pointer parallax + scroll spin
+    const pivot = new THREE.Group();     // pointer parallax only
+    const spinner = new THREE.Group();   // scroll-driven spin only
     pivot.add(momo);
-    scene.add(pivot);
+    spinner.add(pivot);
+    scene.add(spinner);
 
     // body: lathe of the app's mochi silhouette (px/100 units)
     const profile = [
@@ -359,13 +419,14 @@
       if (reduced) return;
       const dir = Math.random() > 0.5 ? 1 : -1;
       const tl = gsap.timeline({ onComplete: () => gsap.delayedCall(7 + Math.random() * 8, hop) });
-      for (const step of [dir, dir, -dir, -dir]) {
-        tl.to(momo.position, { y: 0.22, duration: 0.16, ease: 'power2.out' })
-          .to(momo.position, { y: 0, duration: 0.16, ease: 'power2.in' })
-          .to(momo.position, { x: `+=${step * 0.18}`, duration: 0.32, ease: 'sine.inOut' }, '<-0.16');
-        if (step === dir && tl.getChildren().length === 6) tl.to({}, { duration: 0.9 });
-      }
-      tl.to(momo.position, { x: 0, duration: 0.2, ease: 'sine.out' });
+      const oneHop = (toX) => {
+        tl.to(momo.position, { y: 0.2, duration: 0.15, ease: 'power2.out' })
+          .to(momo.position, { x: toX, duration: 0.3, ease: 'sine.inOut' }, '<')
+          .to(momo.position, { y: 0, duration: 0.15, ease: 'power2.in' }, '<0.15');
+      };
+      oneHop(dir * 0.17); oneHop(dir * 0.34);
+      tl.to({}, { duration: 0.9 });
+      oneHop(dir * 0.17); oneHop(0);
     }
     gsap.delayedCall(5, hop);
 
@@ -425,22 +486,40 @@
 
     /* ===================== scroll: momo takes a bow ===================== */
     if (!reduced) {
-      gsap.to(pivot.rotation, {
+      // spinner owns scroll rotation; pivot owns pointer parallax — no fighting
+      gsap.to(spinner.rotation, {
         y: Math.PI * 2,
-        scrollTrigger: { trigger: '#poses-section', start: 'top bottom', end: 'top 30%', scrub: 1 },
+        scrollTrigger: { trigger: '#poses-section', start: 'top bottom', end: 'top 25%', scrub: 1 },
       });
-      gsap.from('.poses img', {
-        scrollTrigger: { trigger: '#poses-section', start: 'top 78%' },
-        y: 40, opacity: 0, scale: 0.85, duration: 0.6, stagger: 0.12, ease: 'back.out(1.6)',
-      });
-      gsap.utils.toArray('.poses img').forEach((img, i) => {
-        gsap.to(img, { y: -6, duration: 1.4 + i * 0.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: i * 0.3 });
+      gsap.from('.moment', {
+        scrollTrigger: { trigger: '#poses-section', start: 'top 78%', once: true },
+        y: 24, opacity: 0, scale: 0.96, duration: 0.45, stagger: 0.06, ease: 'power3.out',
       });
       gsap.from('.card', {
-        scrollTrigger: { trigger: '#features', start: 'top 72%' },
-        y: 32, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: { trigger: '#features', start: 'top 74%', once: true },
+        y: 24, opacity: 0, duration: 0.4, stagger: 0.05, ease: 'power3.out',
+      });
+      gsap.from('.story > *', {
+        scrollTrigger: { trigger: '#story', start: 'top 80%', once: true },
+        y: 18, opacity: 0, duration: 0.45, stagger: 0.07, ease: 'power3.out',
       });
     }
+
+    // gift momo: native share where available, clipboard elsewhere
+    const shareBtn = document.getElementById('share-btn');
+    shareBtn.addEventListener('click', async () => {
+      const data = {
+        title: 'momo',
+        text: 'i saw this and thought of you. it\'s free, it\'s private, and it just wants you to be okay 🤍',
+        url: 'https://hmena01.github.io/momo-site/',
+      };
+      try {
+        if (navigator.share) { await navigator.share(data); return; }
+        await navigator.clipboard.writeText(data.text + ' ' + data.url);
+        shareBtn.textContent = 'copied — go send it 🤍';
+        setTimeout(() => { shareBtn.textContent = 'send momo to someone 🤍'; }, 2200);
+      } catch {}
+    });
 
     /* ============================ render loop ========================== */
     function resize() {

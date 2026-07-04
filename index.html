@@ -12,7 +12,7 @@
     --text: #4A3B33; --text-2: #7A6A5E; --text-3: #A79685;
     --accent: #E8A18C; --accent-hover: #D98D77; --on-accent: #FFF9F1;
     --sage: #8FAE8B; --sage-soft: #E3ECDF; --lavender: #AC9EC6;
-    --shadow: rgba(74, 59, 51, 0.10);
+    --heart: #E58C92;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -20,46 +20,54 @@
       --text: #EFE5DA; --text-2: #B8A99B; --text-3: #84766A;
       --accent: #DE9A86; --accent-hover: #E7AC9A; --on-accent: #2C1E18;
       --sage: #93B18F; --sage-soft: #2E362C; --lavender: #A99BC3;
-      --shadow: rgba(0, 0, 0, 0.35);
     }
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: var(--bg); color: var(--text);
+    background: var(--bg); color: var(--text); overflow-x: hidden;
     font-family: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", Quicksand, Comfortaa, -apple-system, system-ui, sans-serif;
     line-height: 1.6;
   }
-  .wrap { max-width: 780px; margin: 0 auto; padding: 0 24px; }
-  header { text-align: center; padding: 64px 0 32px; }
-  .hero-img { width: 240px; max-width: 70%; height: auto; }
-  h1 { font-size: 2.4rem; font-weight: 700; margin-top: 16px; }
-  .tagline { color: var(--text-2); font-size: 1.2rem; margin-top: 8px; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  header { text-align: center; padding: 56px 0 24px; position: relative; }
+  #momo-stage { position: relative; display: inline-block; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  #momo-svg { width: 280px; max-width: 76vw; height: auto; overflow: visible; }
+  #hearts-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+  .heart {
+    position: absolute; font-size: 22px; will-change: transform, opacity;
+    left: 50%; top: 22%;
+  }
+  h1 { font-size: 2.6rem; font-weight: 700; margin-top: 8px; }
+  .tagline { color: var(--text-2); font-size: 1.25rem; margin-top: 6px; }
+  .hint { color: var(--text-3); font-size: 0.8rem; margin-top: 10px; }
   .badge {
-    display: inline-block; margin-top: 24px; padding: 14px 28px;
+    display: inline-block; margin-top: 22px; padding: 14px 30px;
     background: var(--accent); color: var(--on-accent);
     border-radius: 14px; text-decoration: none; font-weight: 600; font-size: 1.05rem;
+    transition: background 0.2s;
   }
   .badge:hover { background: var(--accent-hover); }
-  .badge-note { display: block; margin-top: 8px; color: var(--text-3); font-size: 0.85rem; }
-  section { padding: 40px 0; }
-  .poses { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; padding: 16px 0 0; }
-  .poses img { width: 120px; height: auto; }
-  h2 { font-size: 1.5rem; margin-bottom: 16px; text-align: center; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 24px; }
+  .badge-note { display: block; margin-top: 10px; color: var(--text-3); font-size: 0.85rem; }
+  section { padding: 44px 0; }
+  .poses { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .poses img { width: 128px; height: auto; will-change: transform; }
+  h2 { font-size: 1.6rem; margin-bottom: 8px; text-align: center; }
+  .sub { text-align: center; color: var(--text-2); margin-bottom: 8px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 28px; }
   .card {
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 24px;
+    border-radius: 20px; padding: 24px; will-change: transform, opacity;
   }
   .card h3 { font-size: 1.05rem; margin-bottom: 8px; }
   .card p { color: var(--text-2); font-size: 0.95rem; }
   .privacy-callout {
-    background: var(--sage-soft); border-radius: 20px; padding: 24px 32px;
-    text-align: center; margin-top: 32px;
+    background: var(--sage-soft); border-radius: 20px; padding: 28px 32px;
+    text-align: center; margin-top: 36px; will-change: transform, opacity;
   }
   .privacy-callout strong { color: var(--sage); }
   footer {
     border-top: 1px solid var(--border); margin-top: 48px;
-    padding: 32px 0 48px; text-align: center; color: var(--text-3); font-size: 0.9rem;
+    padding: 32px 0 56px; text-align: center; color: var(--text-3); font-size: 0.9rem;
   }
   footer a { color: var(--text-2); }
 </style>
@@ -67,14 +75,60 @@
 <body>
   <div class="wrap">
     <header>
-      <img class="hero-img" src="assets/momo-day.png" alt="Momo, a round peach-colored mochi character with big sparkly eyes, smiling" />
+      <div id="momo-stage" aria-label="Momo, a squishy peach mochi character. Click him!" role="img">
+        <svg id="momo-svg" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0" y1="90" x2="0" y2="262" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#F6BFA8"/>
+              <stop offset="1" stop-color="#EFA084"/>
+            </linearGradient>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+          </defs>
+          <ellipse id="momo-shadow" cx="160" cy="272" rx="88" ry="12" fill="rgba(74,59,51,0.12)" filter="url(#soft)"/>
+          <g id="momo-hop">
+            <g id="momo-squash">
+              <path d="M 70 262 C 48 252, 54 192, 66 152 C 76 104, 98 90, 160 90
+                       C 222 90, 244 104, 254 152 C 266 192, 272 252, 250 262
+                       C 214 268, 106 268, 70 262 Z" fill="url(#bodyGrad)"/>
+              <g id="armL" transform="rotate(-38 70 198)">
+                <rect x="36" y="185" width="50" height="26" rx="13" fill="#EFA084"/>
+              </g>
+              <g id="armR" transform="rotate(38 250 198)">
+                <rect x="234" y="185" width="50" height="26" rx="13" fill="#EFA084"/>
+              </g>
+              <ellipse cx="160" cy="199" rx="62" ry="43" fill="#FBD8C4" opacity="0.45" filter="url(#soft)"/>
+              <g id="momo-face">
+                <ellipse cx="94" cy="196" rx="15" ry="8" fill="#E8836F" opacity="0.55" filter="url(#soft)"/>
+                <ellipse cx="226" cy="196" rx="15" ry="8" fill="#E8836F" opacity="0.55" filter="url(#soft)"/>
+                <g id="eyeL">
+                  <rect x="107" y="153" width="22" height="30" rx="11" fill="#42302A"/>
+                  <circle cx="122" cy="161" r="4.5" fill="#FFF6EE"/>
+                  <circle cx="114" cy="172" r="2" fill="#FFF6EE" opacity="0.7"/>
+                </g>
+                <g id="eyeR">
+                  <rect x="191" y="153" width="22" height="30" rx="11" fill="#42302A"/>
+                  <circle cx="206" cy="161" r="4.5" fill="#FFF6EE"/>
+                  <circle cx="198" cy="172" r="2" fill="#FFF6EE" opacity="0.7"/>
+                </g>
+                <path id="momo-smile" d="M 147 195 Q 160 208, 173 195" fill="none" stroke="#8A5343" stroke-width="5" stroke-linecap="round"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+        <div id="hearts-layer"></div>
+      </div>
       <h1>momo</h1>
       <p class="tagline">a lil fella who checks in on you</p>
+      <p class="hint">(psst — click him)</p>
       <a class="badge" href="#">Coming soon to the App Store</a>
       <span class="badge-note">made first for one very tired resident. now for everyone who takes care of everyone else.</span>
     </header>
 
-    <section>
+    <section id="poses-section">
+      <h2>he has outfits. obviously.</h2>
+      <p class="sub">cocoa mornings, tiny stethoscope shifts, confetti wins, pajama nights</p>
       <div class="poses">
         <img src="assets/momo-morning.png" alt="Momo with a cup of cocoa in the morning" />
         <img src="assets/momo-scrubs.png" alt="Momo wearing a tiny stethoscope" />
@@ -83,7 +137,7 @@
       </div>
     </section>
 
-    <section>
+    <section id="features">
       <h2>what momo does</h2>
       <div class="cards">
         <div class="card">
@@ -114,16 +168,115 @@
 
       <div class="privacy-callout">
         <strong>everything stays on your phone.</strong><br />
-        no account. no cloud. no analytics. momo can't gossip — he doesn't even have wifi.
+        no account required. no cloud. no analytics. momo can't gossip — he doesn't even have wifi.
       </div>
     </section>
 
     <footer>
-      <p>
-        <a href="privacy.html">privacy policy</a> · <a href="support.html">support</a>
-      </p>
+      <p><a href="privacy.html">privacy policy</a> · <a href="support.html">support</a></p>
       <p style="margin-top: 8px;">© 2026 Harsh Menaria. momo is a small creature and asks that you be gentle with yourself.</p>
     </footer>
   </div>
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+    integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+    crossorigin="anonymous"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+    integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+    crossorigin="anonymous"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- momo is alive: breathing ----
+    if (!reduced) {
+      gsap.to('#momo-squash', {
+        scaleY: 1.03, scaleX: 0.985, transformOrigin: '160px 262px',
+        duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut',
+      });
+
+      // ---- randomized blinks (sometimes a double-blink) ----
+      const blink = () => {
+        const double = Math.random() > 0.7;
+        const tl = gsap.timeline({ onComplete: scheduleBlink });
+        tl.to(['#eyeL', '#eyeR'], { scaleY: 0.08, transformOrigin: 'center 168px', duration: 0.07 })
+          .to(['#eyeL', '#eyeR'], { scaleY: 1, duration: 0.1 });
+        if (double) {
+          tl.to(['#eyeL', '#eyeR'], { scaleY: 0.08, duration: 0.07 })
+            .to(['#eyeL', '#eyeR'], { scaleY: 1, duration: 0.1 });
+        }
+      };
+      const scheduleBlink = () => gsap.delayedCall(1.5 + Math.random() * 3.5, blink);
+      scheduleBlink();
+
+      // ---- occasional little wander hop, like in the app ----
+      const wander = () => {
+        const dir = Math.random() > 0.5 ? 1 : -1;
+        const tl = gsap.timeline({ onComplete: scheduleWander });
+        for (let i = 0; i < 2; i++) {
+          tl.to('#momo-hop', { y: -12, duration: 0.15, ease: 'power2.out' })
+            .to('#momo-hop', { y: 0, duration: 0.15, ease: 'power2.in' }, '<0.15')
+            .to('#momo-hop', { x: `+=${dir * 16}`, duration: 0.3, ease: 'sine.inOut' }, '<');
+        }
+        tl.to({}, { duration: 1 });
+        for (let i = 0; i < 2; i++) {
+          tl.to('#momo-hop', { y: -12, duration: 0.15, ease: 'power2.out' })
+            .to('#momo-hop', { y: 0, duration: 0.15, ease: 'power2.in' }, '<0.15')
+            .to('#momo-hop', { x: `-=${dir * 16}`, duration: 0.3, ease: 'sine.inOut' }, '<');
+        }
+      };
+      const scheduleWander = () => gsap.delayedCall(6 + Math.random() * 8, wander);
+      scheduleWander();
+    }
+
+    // ---- click/tap: squish + hearts (works even with reduced motion, gentler) ----
+    const stage = document.getElementById('momo-stage');
+    const heartsLayer = document.getElementById('hearts-layer');
+    stage.addEventListener('click', () => {
+      if (!reduced) {
+        gsap.fromTo('#momo-squash',
+          { scaleY: 0.85, scaleX: 1.08, transformOrigin: '160px 262px' },
+          { scaleY: 1, scaleX: 1, duration: 0.7, ease: 'elastic.out(1, 0.35)' });
+        gsap.fromTo('#momo-smile', { scaleY: 1.6, transformOrigin: '160px 195px' },
+          { scaleY: 1, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
+      }
+      for (let i = 0; i < 3; i++) {
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = '🤍';
+        heartsLayer.appendChild(h);
+        gsap.fromTo(h,
+          { x: (Math.random() - 0.5) * 120, y: 0, opacity: 0, scale: 0.5 },
+          {
+            y: -90 - Math.random() * 60, opacity: 1, scale: 1, duration: 1.2 + Math.random() * 0.5,
+            ease: 'power1.out', delay: i * 0.12,
+            onComplete: () => { gsap.to(h, { opacity: 0, duration: 0.3, onComplete: () => h.remove() }); },
+          });
+      }
+    });
+
+    // ---- scroll: poses bounce in, cards rise, callout pops ----
+    if (!reduced) {
+      gsap.from('.poses img', {
+        scrollTrigger: { trigger: '#poses-section', start: 'top 75%' },
+        y: 40, opacity: 0, scale: 0.85, duration: 0.6, stagger: 0.12, ease: 'back.out(1.6)',
+      });
+      gsap.utils.toArray('.poses img').forEach((img, i) => {
+        gsap.to(img, {
+          y: -6, duration: 1.4 + i * 0.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: i * 0.3,
+        });
+      });
+      gsap.from('.card', {
+        scrollTrigger: { trigger: '#features', start: 'top 70%' },
+        y: 32, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out',
+      });
+      gsap.from('.privacy-callout', {
+        scrollTrigger: { trigger: '.privacy-callout', start: 'top 85%' },
+        scale: 0.92, opacity: 0, duration: 0.6, ease: 'back.out(1.7)',
+      });
+    }
+  </script>
 </body>
 </html>
